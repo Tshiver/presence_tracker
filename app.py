@@ -27,7 +27,7 @@ def login_account():
     if((username=='' or password=='')or len(t)==0):
         return render_template('index.html',server_msg='invalid username or password')
     else:
-        return render_template('index.html',server_msg='')
+        return render_template('index.html',server_msg=f'welcome {username}')
 
 
 @app.route('/create_account',methods=['POST','GET'])
@@ -37,8 +37,12 @@ def create_account():
     if(username=='' or password==''):
         return render_template('index.html',server_msg='ya 7mar da5l bl s7i7')
     else:
-        insert_user(username,password)
-        return render_template('index.html',server_msg='')
+        t=get_username(username)
+        if len(t)!=0:
+            return render_template('index.html',server_msg='username already existe')
+        else:
+            insert_user(username,password)
+            return render_template('index.html',server_msg=f'welcome {username} , account created successfully')
 
 def create_tables():
     conn = sq.connect(DBPATH)
@@ -55,6 +59,16 @@ def get_user(user,password):
     conn = sq.connect(DBPATH)
     cur = conn.cursor()
     res = cur.execute("SELECT username FROM users WHERE username = ? AND password = ?",(user,password))
+    t=res.fetchall()
+    conn.commit()
+    conn.close()
+    return t 
+
+
+def get_username(user):
+    conn = sq.connect(DBPATH)
+    cur = conn.cursor()
+    res = cur.execute("SELECT username FROM users WHERE username = ?",(user,))
     t=res.fetchall()
     conn.commit()
     conn.close()
