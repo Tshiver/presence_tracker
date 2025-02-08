@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>{{server_msg}}</h1>
+    <form action="/create_new_timeline" method="post">
+    <select name="day" id="day">
+        <option value="0">--Please choose a day--</option>
+        <option value="1">monday</option>
+        <option value="2">tuesday</option>
+        <option value="3">wednesday</option>
+        <option value="4">thursday</option>
+        <option value="5">friday</option>
+        <option value="6">saturday</option>
+        <option value="7">sunday</option>
+      </select>
+      <label for="stime">start</label>
+        <input type="time" id="stime" name="stime">
+        <label for="etime">end</label>
+        <input type="time" id="etime" name="etime"><br><br>
+        <button type="submit" class="btn">Submit</button>
+    </form>
+</body>
+</html>
