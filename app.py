@@ -21,6 +21,7 @@ def create():
 
 @app.route('/login_account',methods=['POST','GET'])
 def login_account():
+    global username 
     username = request.form.get('username', None)
     password = request.form.get('pass', None)
     t=get_user(username,password)
@@ -56,8 +57,10 @@ def create_tables():
                 CREATE TABLE IF NOT EXISTS users_times
                 (username text PRIMARY KEY,
                 day text,
-                time DATETIME,
+                stime DATETIME,
+                etime DATETIME,
                 matier text,
+                typ text,
                 FOREIGN KEY (username) REFERENCES users (username))
                 ''')
     conn.commit()
@@ -94,6 +97,15 @@ def insert_user(user,password):
     conn.close()
 
 
+def insert_new_time(day,stime,etime,matt,typ):
+    conn = sq.connect(DBPATH)
+    cur = conn.cursor()
+    cur.execute('''
+                INSERT INTO users_times (day,stime,etime,matier,typ) VALUES(?,?,?,?,?)
+                ''',(day,stime,etime,matt,typ))
+    conn.commit()
+    conn.close()
+
 
 @app.route('/create_new_timeline')
 def new_time():
@@ -116,7 +128,9 @@ def create_newT():
         return render_template('create_new_timeline.html',server_msg="write the subject name")
     elif(c==None):
         return render_template('create_new_timeline.html',server_msg="choose the type of classe")
-    return render_template('create_new_timeline.html',server_msg="..")
+    else:
+        insert_new_time(day,startT,endT,matt,c)
+        return render_template('create_new_timeline.html',server_msg="time added succefully")
 
 
 @app.route('/edit_time')
