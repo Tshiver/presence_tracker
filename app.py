@@ -105,9 +105,17 @@ def create_newT():
     day = request.form.get('day', None)
     startT = request.form.get('stime', None)
     endT = request.form.get('etime', None)
-    print(day)
+    matt=request.form.get("matt",None)
+    c=request.form.get("c",None)
+    print(c)
     if (day=="0" or day=="7"):
-        return render_template('create_new_timeline.html',server_msg="choose the right day")  
+        return render_template('create_new_timeline.html',server_msg="choose the right day") 
+    elif (startT> endT):
+        return render_template('create_new_timeline.html',server_msg="invalid time")
+    elif(matt==""):
+        return render_template('create_new_timeline.html',server_msg="write the subject name")
+    elif(c==None):
+        return render_template('create_new_timeline.html',server_msg="choose the type of classe")
     return render_template('create_new_timeline.html',server_msg="..")
 
 
