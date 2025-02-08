@@ -52,6 +52,15 @@ def create_tables():
                 (username text PRIMARY KEY, password text)
                 ''')
     conn.commit()
+    cur.execute('''
+                CREATE TABLE IF NOT EXISTS users_times
+                (username text PRIMARY KEY,
+                day text,
+                time DATETIME,
+                matier text,
+                FOREIGN KEY (username) REFERENCES users (username))
+                ''')
+    conn.commit()
     conn.close()
 
 
@@ -83,7 +92,6 @@ def insert_user(user,password):
                 ''',(user,password,))
     conn.commit()
     conn.close()
-
 
 
 def main():
