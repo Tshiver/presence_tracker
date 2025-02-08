@@ -6,6 +6,31 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>edit time</h1>
+    <h1>{{server_msg}}</h1>
+    <form action="/edit_time" method="post">
+    <select name="day" id="day">
+        <option value="0">--Please choose a day--</option>
+        <option value="1">monday</option>
+        <option value="2">tuesday</option>
+        <option value="3">wednesday</option>
+        <option value="4">thursday</option>
+        <option value="5">friday</option>
+        <option value="6">saturday</option>
+        <option value="7">sunday</option>
+      </select>
+      <label for="stime">start</label>
+        <input type="time" id="stime" name="stime">
+        <label for="etime">end</label>
+        <input type="time" id="etime" name="etime">
+        <label for="matt">subject</label>
+        <input type="text" id="matt" name="matt">
+        <label for="cours">cours</label>
+        <input type="radio" id="c" value="cours" name="c">
+        <label for="td">td</label>
+        <input type="radio" id="c" value="td" name="c">
+        <label for="tp">tp</label>
+        <input type="radio" id="c" value="tp" name="c">
+        <button type="submit" class="btn">edit the time</button>
+    </form>
 </body>
 </html>

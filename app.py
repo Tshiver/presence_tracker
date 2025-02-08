@@ -133,9 +133,41 @@ def create_newT():
         return render_template('create_new_timeline.html',server_msg="time added succefully")
 
 
+
+def edit_time(day,stime,etime,matt,typ):
+    conn = sq.connect(DBPATH)
+    cur = conn.cursor()
+    cur.execute('''
+                UPDATE users_times 
+                SET day = ?,  stime= ?, etime=?,matier=?,typ=?
+                WHERE day=? AND stime=?
+                ''',(day,stime,etime,matt,typ,day,stime))
+    conn.commit()
+    conn.close()
+
+
 @app.route('/edit_time')
+def edit_T():
+    return render_template('edit_time.html')
+
+@app.route('/edit_time',methods=['POST','GET'])
 def editT():
-    return render_template('edit_time.html',server_msg="")
+    day = request.form.get('day', None)
+    startT = request.form.get('stime', None)
+    endT = request.form.get('etime', None)
+    matt=request.form.get("matt",None)
+    c=request.form.get("c",None)
+    if (day=="0" or day=="7"):
+        return render_template('edit_time.html',server_msg="choose the right day") 
+    elif (startT> endT):
+        return render_template('edit_time.html',server_msg="invalid time")
+    elif(matt==""):
+        return render_template('edit_time.html',server_msg="write the subject name")
+    elif(c==None):
+        return render_template('edit_time.html',server_msg="choose the type of classe")
+    else:
+        edit_time(day,startT,endT,matt,c)
+        return render_template('edit_time.html',server_msg="time updated succefully")
 
 
 
